@@ -1,0 +1,44 @@
+{% extends "base.twig" %}
+
+{% set title = "Character Details" %}
+
+{% block content %}
+    <div class="container mx-auto bg-white p-4 rounded-lg">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="bg-gray-200 p-4 rounded-lg" style="padding-right: 1rem">
+                <h1 class="text-2xl font-bold text-black">Location Name: {{ location.getName() }}</h1>
+
+                <div class="px-4 py-2 mt-4">
+                    <p class="text-black"><strong class="text-black">Type:</strong> {{ location.getType() }}</p>
+                    <p class="text-black"><strong class="text-black">Dimension:</strong> {{ location.getDimension() }}</p>
+                </div>
+            </div>
+            <div class="col-span-2 bg-gray-200 rounded-lg">
+                <h2 class="text-2xl font-bold text-black p-4">Residents:</h2>
+                <div class="grid grid-cols-3 gap-4 px-4 py-2">
+
+                    {% if chars is empty %}
+                        <p class="text-black" style="font-size: 24px; font-weight: bold;">NO RESIDENTS!</p>
+                    {% elseif chars|length == 1 %}
+                        <a href="/character/{{ chars.getId() }}" class="block">
+                            <div class="flex items-center border border-gray-400 rounded-lg p-2">
+                                <img src="{{ chars.getImageUrl() }}" alt="{{ chars.getName() }}" class="w-12 h-12 rounded-lg mr-2">
+                                <p class="text-black">{{ chars.getName() }}</p>
+                            </div>
+                        </a>
+                    {% else %}
+                        {% for character in chars %}
+                            <a href="/character/{{ character.getId() }}" class="block">
+                                <div class="flex items-center border border-gray-400 rounded-lg p-2">
+                                    <img src="{{ character.getImageUrl() }}" alt="{{ character.getName() }}" class="w-12 h-12 rounded-lg mr-2">
+                                    <p class="text-black">{{ character.getName() }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

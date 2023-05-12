@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html class="bg-gray-900 text-gray-100" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+</head>
+
+<body class="flex flex-col min-h-screen">
+<header class="bg-gray-800 py-4">
+    <div class="container mx-auto flex justify-between items-center px-4">
+        <a href="/" class="text-2xl font-bold text-gray-100">Rick and Morty</a>
+        <nav>
+            <a href="/" class="px-3 hover:text-gray-300">Characters</a>
+            <a href="/episodes" class="px-3 hover:text-gray-300">Episodes</a>
+            <a href="/locations" class="px-3 hover:text-gray-300">Locations</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container mx-auto flex-grow py-8">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer class="bg-gray-800 py-4">
+    <div class="container mx-auto text-center">
+        <p class="text-gray-400">&copy; {{ "now"|date("Y") }} My Website</p>
+    </div>
+</footer>
+</body>
+</html>

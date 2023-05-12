@@ -1,0 +1,40 @@
+{% extends "base.twig" %}
+
+{% set title = "Character Details" %}
+
+{% block content %}
+    <div class="container mx-auto bg-white p-4 rounded-lg">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="bg-gray-200 p-4 rounded-lg" style="padding-right: 1rem">
+                <h1 class="text-2xl font-bold text-black">{{ char.getName() }}</h1>
+
+                <img src="{{ char.getImageUrl() }}" alt="{{ char.getName() }}" class="w-auto rounded-lg">
+                <div class="px-4 py-2 mt-4">
+                    <p class="text-black"><strong class="text-black">ID:</strong> {{ char.getId() }}</p>
+                    <p class="text-sm text-black">
+                        {% if char.status == "Alive" %}
+                            <button class="bg-green-500 text-white px-2 py-1 rounded-full">{{ char.status }}</button>
+                        {% elseif char.status == "Dead" %}
+                            <button class="bg-red-500 text-white px-2 py-1 rounded-full">{{ char.status }}</button>
+                        {% else %}
+                            <button class="bg-gray-500 text-white px-2 py-1 rounded-full">{{ char.status }}</button>
+                        {% endif %}
+                        {{ char.species }}
+                    </p>
+                    <p class="text-black"><strong >Gender:</strong> {{ char.getGender() }}</p>
+                    <p><strong class="text-black">Origin:</strong> <a href="/location/{{ char.getOriginId() }}" class="text-black">{{ char.getOriginName() }}</a></p>
+                    <p><strong class="text-black">Last Location:</strong> <a href="/location/{{ char.getLocationId() }}" class="text-black">{{ char.getLocationName() }}</a></p>
+                    <p><strong class="text-black">First Seen Episode:</strong> <a href="/episode/{{ char.getFirstSeenKey() }}" class="text-black">{{ char.getFirstSeen() }}</a></p>
+                </div>
+            </div>
+            <div class="col-span-2 bg-gray-200  rounded-lg">
+                <h2 class="text-2xl font-bold text-black p-4">Episodes:</h2>
+                <div class="grid grid-cols-3 gap-4 px-4 py-2">
+                    {% for episodeKey, episodeName in char.getAllEpisodes() %}
+                        <a href="/episode/{{ episodeKey }}" class="text-black">{{ episodeName }} (Id: {{ episodeKey }})</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

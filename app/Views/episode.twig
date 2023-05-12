@@ -1,0 +1,32 @@
+{% extends "base.twig" %}
+
+{% set title = "Character Details" %}
+
+{% block content %}
+    <div class="container mx-auto bg-white p-4 rounded-lg">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="bg-gray-200 p-4 rounded-lg" style="padding-right: 1rem">
+                <h1 class="text-2xl font-bold text-black">Episode Name: {{ episode.getName() }}</h1>
+
+                <div class="px-4 py-2 mt-4">
+                    <p class="text-black"><strong class="text-black">Episode:</strong> {{ episode.getEpisode() }}</p>
+                    <p class="text-black"><strong class="text-black">Air date:</strong> {{ episode.getAirDate() }}</p>
+                </div>
+            </div>
+            <div class="col-span-2 bg-gray-200 rounded-lg">
+                <h2 class="text-2xl font-bold text-black p-4">Characters:</h2>
+                <div class="grid grid-cols-3 gap-4 px-4 py-2">
+
+                    {% for character in chars %}
+                        <a href="/character/{{ character.getId() }}" class="block">
+                            <div class="flex items-center border border-gray-400 rounded-lg p-2">
+                                <img src="{{ character.getImageUrl() }}" alt="{{ character.getName() }}" class="w-12 h-12 rounded-lg mr-2">
+                                <p class="text-black">{{ character.getName() }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

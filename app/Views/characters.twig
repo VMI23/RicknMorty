@@ -1,0 +1,98 @@
+{% extends "base.twig" %}
+
+{% set title = "Page 1" %}
+
+{% block content %}
+    <form method="get" action="/filteredchar/" class="flex space-x-4">
+
+        <label for="name" class="text-gray-100">Filter by Name:</label>
+        <input type="text" name="name" id="name" placeholder="Enter a name"
+               value=" "
+               class="bg-gray-200 text-gray-900 px-2 py-1 rounded">
+
+        <label for="status" class="text-gray-100">Filter by Status:</label>
+        <select name="status" id="status" class="bg-gray-200 text-gray-900 px-2 py-1 rounded">
+            <option value="">All</option>
+            <option value="alive">Alive</option>
+            <option value="dead">Dead</option>
+            <option value="unknown">Unknown</option>
+        </select>
+
+        <label for="species" class="text-gray-100">Filter by Species:</label>
+        <select name="species" id="species" class="bg-gray-200 text-gray-900 px-2 py-1 rounded">
+            <option value="">All</option>
+            <option value="Human">Human</option>
+            <option value="Alien">Alien</option>
+        </select>
+
+        <label for="type" class="text-gray-100">Filter by Type:</label>
+        <select name="type" id="type" class="bg-gray-200 text-gray-900 px-2 py-1 rounded">
+            <option value="">All</option>
+            <option value="Scientist">Scientist</option>
+            <option value="Cyborg">Cyborg</option>
+        </select>
+
+        <label for="gender" class="text-gray-100">Filter by Gender:</label>
+        <select name="gender" id="gender" class="bg-gray-200 text-gray-900 px-2 py-1 rounded">
+            <option value="">All</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="genderless">Genderless</option>
+            <option value="unknown">Unknown</option>
+        </select>
+
+        <button type="submit" class="bg-gray-200 text-gray-900 px-2 py-1 rounded">Apply Filters</button>
+    </form>
+    <div class="grid grid-cols-3 gap-6 mt-8">
+        {% for char in Chars|slice((current_page-1)*limit, limit) %}
+            <a href="/character/{{ char.id }}" class="card-link">
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg flex">
+                    <div class="w-auto h-auto">
+                        <img src="{{ char.imageUrl }}" alt="{{ char.name }}" class="w-auto h-auto">
+                    </div>
+                    <div class="flex-1 p-4 flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-gray-800 font-semibold mb-2">{{ char.name }} id: {{ char.id }}</h2>
+                            <p class="text-gray-600 text-sm">
+                                {% if char.status == "Alive" %}
+                                    <button class="bg-green-500 text-white px-2 py-1 rounded-full">{{ char.status }}</button>
+                                {% elseif char.status == "Dead" %}
+                                    <button class="bg-red-500 text-white px-2 py-1 rounded-full">{{ char.status }}</button>
+                                {% else %}
+                                    <button class="bg-gray-500 text-white px-2 py-1 rounded-full">{{ char.status }}</button>
+                                {% endif %}
+                                {{ char.species }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs">Last known location:</p>
+                            <p class="text-gray-600 text-m">{{ char.getLocationName }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs">Origin name:</p>
+                            <p class="text-gray-600 text-m">{{ char.getOriginName() }}</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs">First seen in:</p>
+                            <p class="text-gray-600 text-m"> {{ char.getFirstSeen() }} </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    {% if num_pages > 1 %}
+        <div class="flex justify-center mb-8">
+            <div class="page-switcher flex items-center">
+                {% if current_page > 1 %}
+                    <a href="?page={{ current_page - 1 }}" class="bg-gray-700 hover:bg-gray-600 text-gray-100 px-3 py-2 rounded">Previous</a>
+                {% endif %}
+                <span class="text-gray-500 px-3">({{ current_page }}/{{ num_pages }})</span>
+                {% if current_page < num_pages %}
+                    <a href="?page={{ current_page + 1 }}" class="bg-gray-700 hover:bg-gray-600 text-gray-100 px-3 py-2 rounded">Next</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
